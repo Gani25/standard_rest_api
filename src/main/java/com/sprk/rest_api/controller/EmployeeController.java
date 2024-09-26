@@ -1,6 +1,7 @@
 package com.sprk.rest_api.controller;
 
 import com.sprk.rest_api.dto.EmployeeDto;
+import com.sprk.rest_api.dto.ResponseDto;
 import com.sprk.rest_api.entity.Employee;
 import com.sprk.rest_api.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,11 @@ public class EmployeeController {
 
 
     @PostMapping("/employee")
-    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDto employeeDto) {
-        System.out.println(employeeDto);
-        return null;
+    public ResponseEntity<ResponseDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
+        employeeService.saveEmployee(employeeDto);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Employee added successfully"));
     }
-
-
-
 
 
 }

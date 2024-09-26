@@ -7,6 +7,9 @@ import lombok.ToString;
 @Data
 @ToString
 public class EmployeeDto {
+
+    private String empId;
+
     private String firstName;
 
     private String lastName;

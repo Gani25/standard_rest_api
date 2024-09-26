@@ -12,12 +12,21 @@ import java.time.LocalDateTime;
 public class CustomExceptionHandlerAdvice {
 
     @ExceptionHandler(EmployeeWithEmailAlreadyExists.class)
-    public ResponseEntity<?> handleEmployeeWithEmailAlreadyExists(EmployeeWithEmailAlreadyExists employeeWithEmailAlreadyExists, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponseDto> handleEmployeeWithEmailAlreadyExists(EmployeeWithEmailAlreadyExists employeeWithEmailAlreadyExists, HttpServletRequest request) {
 
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(request.getContextPath(), "500",employeeWithEmailAlreadyExists.getMessage(), LocalDateTime.now());
 
         return ResponseEntity.status(500).body(errorResponseDto);
     }
+
+    @ExceptionHandler(EmployeeWithPhoneAlreadyExists.class)
+    public ResponseEntity<ErrorResponseDto> handleEmployeeWithPhoneAlreadyExists(EmployeeWithPhoneAlreadyExists employeeWithPhoneAlreadyExists, HttpServletRequest request) {
+
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(request.getContextPath(), "500",employeeWithPhoneAlreadyExists.getMessage(), LocalDateTime.now());
+
+        return ResponseEntity.status(500).body(errorResponseDto);
+    }
+
 
 
 }
