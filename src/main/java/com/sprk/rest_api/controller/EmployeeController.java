@@ -5,10 +5,7 @@ import com.sprk.rest_api.dto.ResponseDto;
 import com.sprk.rest_api.entity.Employee;
 import com.sprk.rest_api.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
 @RestController
@@ -22,11 +19,12 @@ public class EmployeeController {
 
 
     @PostMapping("/employee")
-    public ResponseEntity<ResponseDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
-        employeeService.saveEmployee(employeeDto);
+    public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(@RequestBody EmployeeDto employeeDto) {
+        EmployeeDto employeeDto1 = employeeService.saveEmployee(employeeDto);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Employee added successfully"));
+        return ResponseEntity.ok(new ResponseDto("200", employeeDto1));
     }
 
+//    @DeleteMapping("/employee/{empId}")
 
 }

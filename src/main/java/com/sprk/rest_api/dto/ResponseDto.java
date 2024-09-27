@@ -5,11 +5,13 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseDto {
+public class ResponseDto<T> {
 
     private String statusCode;
 
-    private String statusMessage;
+//    private String statusMessage;
+
+    private T data;
 
 
 }

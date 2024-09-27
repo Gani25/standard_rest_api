@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void saveEmployee(EmployeeDto employeeDto) {
+    public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
 
         employeeDto.setEmpId(null);
 
@@ -49,8 +49,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmpId(generateEmpId(employee.getFirstName()));
         employee.setDateOfJoining(LocalDate.now());
 
+//        Employee savedEmployee=
         employeeRepository.save(employee);
 
+        employeeDto.setEmpId(employee.getEmpId());
+        return employeeDto;
 
     }
 

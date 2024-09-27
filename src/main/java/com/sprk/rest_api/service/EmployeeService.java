@@ -5,5 +5,5 @@ import com.sprk.rest_api.dto.EmployeeDto;
 
 public interface EmployeeService {
 
-    void saveEmployee(EmployeeDto employeeDto);
+    EmployeeDto saveEmployee(EmployeeDto employeeDto);
 }
