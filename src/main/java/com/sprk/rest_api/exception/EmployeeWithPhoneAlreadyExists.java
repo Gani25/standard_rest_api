@@ -1,10 +1,8 @@
 package com.sprk.rest_api.exception;
 
-public class EmployeeWithPhoneAlreadyExists extends RuntimeException {
+public class EmployeeWithPhoneAlreadyExists extends ResourseNotFound {
 
-    String message;
-
-    public EmployeeWithPhoneAlreadyExists(String message) {
-        super(message);
+    public EmployeeWithPhoneAlreadyExists(String message, int statusCode) {
+        super(message, statusCode);
     }
 }

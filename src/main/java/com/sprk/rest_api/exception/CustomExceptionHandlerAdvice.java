@@ -11,7 +11,17 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class CustomExceptionHandlerAdvice {
 
-    @ExceptionHandler(EmployeeWithEmailAlreadyExists.class)
+
+    @ExceptionHandler(ResourseNotFound.class)
+    public ResponseEntity<ErrorResponseDto> handleResourceNotFound(ResourseNotFound resourseNotFound, HttpServletRequest request) {
+
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(request.getServletPath(), resourseNotFound.getStatusCode(),resourseNotFound.getMessage(), LocalDateTime.now());
+
+        return ResponseEntity.status(resourseNotFound.getStatusCode()).body(errorResponseDto);
+    }
+
+
+    /*@ExceptionHandler(EmployeeWithEmailAlreadyExists.class)
     public ResponseEntity<ErrorResponseDto> handleEmployeeWithEmailAlreadyExists(EmployeeWithEmailAlreadyExists employeeWithEmailAlreadyExists, HttpServletRequest request) {
 
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(request.getContextPath(), "500",employeeWithEmailAlreadyExists.getMessage(), LocalDateTime.now());
@@ -26,6 +36,8 @@ public class CustomExceptionHandlerAdvice {
 
         return ResponseEntity.status(500).body(errorResponseDto);
     }
+
+     */
 
 
 

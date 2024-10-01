@@ -2,6 +2,7 @@ package com.sprk.rest_api.service.impl;
 
 import com.sprk.rest_api.dto.EmployeeDto;
 import com.sprk.rest_api.entity.Employee;
+import com.sprk.rest_api.exception.EmployeeByEmpIdNotFound;
 import com.sprk.rest_api.exception.EmployeeWithEmailAlreadyExists;
 import com.sprk.rest_api.exception.EmployeeWithPhoneAlreadyExists;
 import com.sprk.rest_api.mapper.EmployeeMapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,10 +36,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> employeeWithPhone = employeeRepository.findByPhone(employeeDto.getPhone());
 
         if (employeeWithEmail.isPresent()) {
-            throw new EmployeeWithEmailAlreadyExists("Employee with " + employeeDto.getEmail() + " already exists");
+            throw new EmployeeWithEmailAlreadyExists("Employee with " + employeeDto.getEmail() + " already exists", 400);
         }
         if (employeeWithPhone.isPresent()) {
-            throw new EmployeeWithPhoneAlreadyExists("Employee with " + employeeDto.getPhone() + " already exists");
+            throw new EmployeeWithPhoneAlreadyExists("Employee with " + employeeDto.getPhone() + " already exists",400);
         }
 
         // Convert employeeDto to Employee;
@@ -55,7 +57,44 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDto.setEmpId(employee.getEmpId());
         return employeeDto;
 
+
     }
+
+
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+//        GPT Code
+        return employeeRepository.findAll()
+                .stream()
+                .map(employee -> EmployeeMapper.ConvertEmployeeToDto(employee, new EmployeeDto()))
+                .toList();
+    }
+
+    @Override
+    public EmployeeDto getByEmpId(String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId).orElseThrow(()-> new EmployeeByEmpIdNotFound("Employee with " + empId + " not found!",404));
+
+        return EmployeeMapper.ConvertEmployeeToDto(employee, new EmployeeDto());
+    }
+
+
+    /*
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+        for(Employee employee : employees) {
+            EmployeeDto employeeDto = new EmployeeDto();
+            employeeDto = EmployeeMapper.ConvertEmployeeToDto(employee, employeeDto);
+
+            employeeDtos.add(employeeDto);
+        }
+        return employeeDtos;
+    }
+    */
+
+
+
 
     private String generateEmpId(String firstName) {
         // Get the first two characters of the first name

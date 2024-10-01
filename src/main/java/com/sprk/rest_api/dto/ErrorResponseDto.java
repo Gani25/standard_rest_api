@@ -11,7 +11,7 @@ public class ErrorResponseDto {
 
     private String apiPath;
 
-    private String errorCode;
+    private int errorCode;
 
     private String errorMessage;
 

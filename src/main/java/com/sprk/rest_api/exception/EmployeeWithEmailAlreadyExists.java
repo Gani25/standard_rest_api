@@ -1,10 +1,8 @@
 package com.sprk.rest_api.exception;
 
-public class EmployeeWithEmailAlreadyExists extends RuntimeException {
+public class EmployeeWithEmailAlreadyExists extends ResourseNotFound {
 
-    String message;
-
-    public EmployeeWithEmailAlreadyExists(String message) {
-        super(message);
+    public EmployeeWithEmailAlreadyExists(String message, int statusCode) {
+        super(message,statusCode);
     }
 }
