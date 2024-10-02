@@ -32,15 +32,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeDto.setEmpId(null);
 
-        Optional<Employee> employeeWithEmail = employeeRepository.findByEmail(employeeDto.getEmail());
-        Optional<Employee> employeeWithPhone = employeeRepository.findByPhone(employeeDto.getPhone());
+        // Check if the email or phone already exists in the system
+        employeeRepository.findByEmail(employeeDto.getEmail())
+                .ifPresent( employee -> {
+                    throw new EmployeeWithEmailAlreadyExists("Employee with email " +employee.getEmail() + " already exists", 400);
+                });
 
-        if (employeeWithEmail.isPresent()) {
-            throw new EmployeeWithEmailAlreadyExists("Employee with " + employeeDto.getEmail() + " already exists", 400);
-        }
-        if (employeeWithPhone.isPresent()) {
-            throw new EmployeeWithPhoneAlreadyExists("Employee with " + employeeDto.getPhone() + " already exists",400);
-        }
+        employeeRepository.findByPhone(employeeDto.getPhone())
+                .ifPresent(employee -> {
+                    throw new EmployeeWithPhoneAlreadyExists("Employee with phone " + employee.getPhone() + " already exists", 400);
+                });
 
         // Convert employeeDto to Employee;
         Employee employee = new Employee();
@@ -56,7 +57,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeDto.setEmpId(employee.getEmpId());
         return employeeDto;
-
 
     }
 
