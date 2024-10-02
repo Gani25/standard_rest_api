@@ -77,6 +77,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return EmployeeMapper.ConvertEmployeeToDto(employee, new EmployeeDto());
     }
 
+    @Override
+    public void deleteEmployee(String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId).orElseThrow(()-> new EmployeeByEmpIdNotFound("Employee with " + empId + " not found!",404));
+        employeeRepository.delete(employee);
+
+
+    }
+
 
     /*
     @Override

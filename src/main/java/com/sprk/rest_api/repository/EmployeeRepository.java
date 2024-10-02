@@ -12,4 +12,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> findByEmail(String email);
     Optional<Employee> findByPhone(String phone);
     Optional<Employee> findByEmpId(String empId);
+
+//    void deleteByEmpId(String empId);
 }
