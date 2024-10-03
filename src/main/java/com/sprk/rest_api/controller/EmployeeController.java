@@ -49,4 +49,13 @@ public class EmployeeController {
 
         return ResponseEntity.status(200).body(new ResponseDto("200", ("Employee with emp id: "+empId+" deleted successfully")));
     }
+
+    @PutMapping("/employee/{empId}")
+    public ResponseEntity<ResponseDto<EmployeeDto>> updateEmployee(@RequestBody EmployeeDto employeeDto, @PathVariable String empId) {
+
+        EmployeeDto employeeDto1= employeeService.updateEmployeeByEmpId(employeeDto,empId);
+
+
+        return ResponseEntity.ok(new ResponseDto("200", employeeDto1));
+    }
 }

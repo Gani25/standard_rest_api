@@ -85,6 +85,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    @Override
+    public EmployeeDto updateEmployeeByEmpId(EmployeeDto employeeDto, String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId).orElseThrow(()-> new EmployeeByEmpIdNotFound("Employee with " + empId + " not found!",404));
+
+        employeeRepository.updateEmployee(employeeDto.getFirstName(),employeeDto.getLastName(), employeeDto.getEmail(), employeeDto.getPhone(),employeeDto.getDepartment(), employeeDto.getDesignation(), empId);
+
+        employeeDto.setEmpId(empId);
+        return employeeDto;
+    }
+
 
     /*
     @Override
