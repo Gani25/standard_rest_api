@@ -11,7 +11,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 )
 @RequestMapping("/api")
 @RestController
+@Validated
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -68,7 +71,7 @@ public class EmployeeController {
 
     )
     @PostMapping("/employee")
-    public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         EmployeeDto employeeDto1 = employeeService.saveEmployee(employeeDto);
 
         return ResponseEntity.ok(new ResponseDto("200", employeeDto1));
