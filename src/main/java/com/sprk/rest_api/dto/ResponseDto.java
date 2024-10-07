@@ -17,7 +17,7 @@ public class ResponseDto<T> {
 
 //    private String statusMessage;
 
-    @Schema(description = "Data" , example = "Update Successfull")
+    @Schema(description = "Data" , example = "Delete Successfull")
     private T data;
 
 

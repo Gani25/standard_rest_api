@@ -6,6 +6,7 @@ import com.sprk.rest_api.dto.ResponseDto;
 import com.sprk.rest_api.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,8 +38,21 @@ public class EmployeeController {
             {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Saved Successfully"
-
+                            description = "Saved Successfully",
+                            content= @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "statusCode": "200",
+                                        "data": {
+                                            "employeeId": 1,
+                                            "employeeName": "John Doe",
+                                            "designation": "Software Engineer"
+                                        }
+                                    }
+                                    """)
+                    )
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -54,7 +68,7 @@ public class EmployeeController {
 
     )
     @PostMapping("/employee")
-        public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(@RequestBody EmployeeDto employeeDto) {
         EmployeeDto employeeDto1 = employeeService.saveEmployee(employeeDto);
 
         return ResponseEntity.ok(new ResponseDto("200", employeeDto1));
@@ -77,6 +91,29 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employee/{empId}")
+    @Operation(
+            description = "Employee Delete API to delete Employee Object",
+            summary = "Delete Mapping"
+    )
+    @ApiResponses(
+            {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Deleted Successfully"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Employee with emp id not found",
+                            content = @Content(
+                                    schema = @Schema(
+                                            implementation = ErrorResponseDto.class
+                                    )
+                            )
+
+                    )
+            }
+
+    )
     public ResponseEntity<ResponseDto<String>> deleteEmployeeByEmpId(@PathVariable String empId) {
 
         employeeService.deleteEmployee(empId);
@@ -85,6 +122,7 @@ public class EmployeeController {
     }
 
     //    Using custom query
+
     @PutMapping("/employee/{empId}")
     public ResponseEntity<ResponseDto<EmployeeDto>> updateEmployee(@RequestBody EmployeeDto employeeDto, @PathVariable String empId) {
 
